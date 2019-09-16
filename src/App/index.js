@@ -1,15 +1,15 @@
 import React from 'react';
+import Settings from '../Settings';
 import AppBar from './AppBar';
 import { AppLayout } from './AppLayout';
 import { AppProvider } from './AppProvider';
-import WelcomeMessage from './WelcomeMessage';
 
 const App = () => {
   return (
     <AppProvider>
       <AppLayout>
         <AppBar />
-        <WelcomeMessage />
+        <Settings />
       </AppLayout>
     </AppProvider>
   );

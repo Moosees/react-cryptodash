@@ -1,5 +1,6 @@
 import React from 'react';
 import Settings from '../Settings';
+import Content from '../Shared/Content';
 import AppBar from './AppBar';
 import { AppLayout } from './AppLayout';
 import { AppProvider } from './AppProvider';
@@ -9,7 +10,9 @@ const App = () => {
     <AppProvider>
       <AppLayout>
         <AppBar />
-        <Settings />
+        <Content>
+          <Settings />
+        </Content>
       </AppLayout>
     </AppProvider>
   );

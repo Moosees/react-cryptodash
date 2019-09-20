@@ -7,6 +7,7 @@ import WelcomeMessage from './WelcomeMessage';
 const Settings = () => (
   <Page name="settings">
     <WelcomeMessage />
+    <CoinGrid topSection />
     <ConfirmButton />
     <CoinGrid />
   </Page>

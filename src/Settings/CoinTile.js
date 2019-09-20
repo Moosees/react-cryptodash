@@ -1,7 +1,7 @@
 import React from 'react';
 import { AppContext } from '../App/AppProvider';
 import CoinImage from '../Shared/CoinImage';
-import { SelectableTile, DisabledTile, DeletableTile } from '../Shared/Tile';
+import { DeletableTile, SelectableTile } from '../Shared/Tile';
 import CoinHeader from './CoinHeader';
 
 const CoinTile = ({ coinKey, topSection }) => (

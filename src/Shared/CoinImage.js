@@ -1,9 +1,16 @@
 import React from 'react';
+import styled from 'styled-components';
 
-const CoinImage = ({ coin: { CoinSymbol, ImageUrl }, style }) => (
-  <img
+export const CoinImageStyled = styled.img`
+  bottom: 5px;
+  height: 50px;
+  position: absolute;
+  right: 5px;
+`;
+
+const CoinImage = ({ coin: { CoinSymbol, ImageUrl } }) => (
+  <CoinImageStyled
     alt={CoinSymbol}
-    style={style || { height: '50px' }}
     src={`http://cryptocompare.com/${ImageUrl}`}
   />
 );

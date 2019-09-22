@@ -13,15 +13,17 @@ export const CoinSymbol = styled.div`
 `;
 
 const Icon = styled.div`
-  bottom: 5px;
+  background-color: rgba(30, 30, 30, 0.7);
   display: none;
   left: 50%;
   position: absolute;
   transform: translateX(-50%);
+  top: -15px;
 `;
 
 export const AddIcon = styled(Icon)`
   ${SelectableTile}:hover & {
+    border: 1px solid #00ff00;
     display: block;
     color: #00ff00;
   }
@@ -29,6 +31,7 @@ export const AddIcon = styled(Icon)`
 
 export const DeleteIcon = styled(Icon)`
   ${DeletableTile}:hover & {
+    border: 1px solid #ff0000;
     display: block;
     color: #ff0000;
   }

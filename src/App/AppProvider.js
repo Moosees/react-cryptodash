@@ -26,7 +26,9 @@ export class AppProvider extends Component {
           favorites: this.state.favorites
         })
       );
-      this.setState({ page: 'dashboard', firstVisit: false });
+      this.setState({ page: 'dashboard', firstVisit: false }, () => {
+        this.fetchPrices();
+      });
     };
 
     const addCoin = coinKey => {
@@ -61,6 +63,7 @@ export class AppProvider extends Component {
 
   componentDidMount() {
     this.fetchCoins();
+    this.fetchPrices();
   }
 
   fetchCoins = async () => {
@@ -68,8 +71,33 @@ export class AppProvider extends Component {
       let coinList = await cc.coinList();
       this.setState({ coinList: coinList.Data });
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
+  };
+
+  fetchPrices = async () => {
+    if (!this.state.firstVisit) {
+      let prices = await this.getPrices();
+      this.setState({ prices });
+    } else return;
+  };
+
+  getPrices = async () => {
+    const { favorites } = this.state;
+    let data = [];
+    for (let i = 0; i < favorites.length; i++) {
+      try {
+        let priceData = await cc.priceFull(favorites[i], 'USD');
+        if (!priceData[favorites[i]].USD) {
+          throw new Error('Could not fetch USD price data');
+        } else {
+          data.push(priceData);
+        }
+      } catch (e) {
+        console.error(`Error fetching price data for ${favorites[i]}:`, e);
+      }
+    }
+    return data;
   };
 
   render() {

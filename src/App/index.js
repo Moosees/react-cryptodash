@@ -1,4 +1,5 @@
 import React from 'react';
+import Dashboard from '../Dashboard';
 import Settings from '../Settings';
 import Content from '../Shared/Content';
 import AppBar from './AppBar';
@@ -12,6 +13,7 @@ const App = () => {
         <AppBar />
         <Content>
           <Settings />
+          <Dashboard />
         </Content>
       </AppLayout>
     </AppProvider>

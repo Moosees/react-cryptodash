@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { DeletableTile, SelectableTile } from '../Shared/Tile';
+import { DeletableTile, SelectableTile } from './Tile';
 
 export const CoinHeaderStyled = styled.div`
   display: grid;
@@ -8,7 +8,7 @@ export const CoinHeaderStyled = styled.div`
   position: relative;
 `;
 
-export const CoinSymbol = styled.div`
+export const JustifyRight = styled.div`
   justify-self: right;
 `;
 
@@ -41,7 +41,7 @@ const CoinHeader = ({ name, symbol, topSection }) => (
   <CoinHeaderStyled>
     {topSection ? <DeleteIcon>Delete?</DeleteIcon> : <AddIcon>Add?</AddIcon>}
     <div>{name}</div>
-    <CoinSymbol>{symbol}</CoinSymbol>
+    <JustifyRight>{symbol}</JustifyRight>
   </CoinHeaderStyled>
 );
 

@@ -4,7 +4,7 @@ const cc = require('cryptocompare');
 
 export const AppContext = createContext();
 
-const MAX_FAVORITES = 10;
+const MAX_FAVORITES = 15;
 
 export class AppProvider extends Component {
   constructor(props) {

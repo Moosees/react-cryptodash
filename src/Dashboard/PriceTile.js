@@ -36,7 +36,7 @@ export const TickerPrice = styled.div`
   ${fontSizeL}
 `;
 
-const numberFormat = number => +(number + '').slice(0, 7);
+const numberFormat = (number, digits) => +(number + '').slice(0, digits);
 
 const PriceTileBig = ({ coinKey, price }) => (
   <>
@@ -44,11 +44,11 @@ const PriceTileBig = ({ coinKey, price }) => (
       <div>{coinKey}</div>
       <JustifyRight>
         <ChangePct red={price.CHANGEPCT24HOUR < 0}>
-          {numberFormat(price.CHANGEPCT24HOUR)}
+          {numberFormat(price.CHANGEPCT24HOUR, 8)}%
         </ChangePct>
       </JustifyRight>
     </CoinHeaderStyled>
-    <TickerPrice>${numberFormat(price.PRICE)}</TickerPrice>
+    <TickerPrice>${numberFormat(price.PRICE, 9)}</TickerPrice>
   </>
 );
 
@@ -57,11 +57,11 @@ const PriceTileCompact = ({ coinKey, price }) => (
     <div>{coinKey}</div>
     <JustifyRight>
       <ChangePct red={price.CHANGEPCT24HOUR < 0}>
-        {numberFormat(price.CHANGEPCT24HOUR)}
+        {numberFormat(price.CHANGEPCT24HOUR, 4)}%
       </ChangePct>
     </JustifyRight>
     <JustifyRight>
-      <div>{price.PRICE ? `$${numberFormat(price.PRICE)}` : 'N/A'}</div>
+      <div>{price.PRICE ? `$${numberFormat(price.PRICE, 7)}` : 'N/A'}</div>
     </JustifyRight>
   </>
 );

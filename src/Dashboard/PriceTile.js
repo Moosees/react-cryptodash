@@ -61,7 +61,7 @@ const PriceTileCompact = ({ coinKey, price }) => (
       </ChangePct>
     </JustifyRight>
     <JustifyRight>
-      <div>${numberFormat(price.PRICE)}</div>
+      <div>{price.PRICE ? `$${numberFormat(price.PRICE)}` : 'N/A'}</div>
     </JustifyRight>
   </>
 );

@@ -72,7 +72,7 @@ export class AppProvider extends Component {
 
   fetchCoins = async () => {
     try {
-      let coinList = await cc.coinList();
+      const coinList = await cc.coinList();
       this.setState({ coinList: coinList.Data });
     } catch (e) {
       console.error(e);
@@ -92,13 +92,16 @@ export class AppProvider extends Component {
     for (let i = 0; i < favorites.length; i++) {
       try {
         let priceData = await cc.priceFull(favorites[i], 'USD');
-        if (!priceData[favorites[i]].USD) {
+        if (!priceData) {
           throw new Error('Could not fetch USD price data');
         } else {
           data.push(priceData);
         }
       } catch (e) {
         console.error(`Error fetching price data for ${favorites[i]}:`, e);
+        data.push({
+          [favorites[i]]: { USD: { PRICE: 0, CHANGEPCT24HOUR: 0 } }
+        });
       }
     }
     return data;

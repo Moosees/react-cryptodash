@@ -1,8 +1,9 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import { CoinHeaderStyled, JustifyRight } from '../Shared/CoinHeader';
-import { fontSizeS, fontSizeL } from '../Shared/Styles';
+import { boxShadowGreen, fontSizeL, fontSizeS } from '../Shared/Styles';
 import { SelectableTile } from '../Shared/Tile';
+import { AppContext } from '../App/AppProvider';
 
 export const PriceTileStyled = styled(SelectableTile)`
   height: auto;
@@ -13,6 +14,12 @@ export const PriceTileStyled = styled(SelectableTile)`
       grid-gap: 5px;
       grid-template-columns: repeat(3, 1fr);
       ${fontSizeS}
+    `}
+  ${({ currentFavorite }) =>
+    currentFavorite &&
+    css`
+      pointer-events: none;
+      ${boxShadowGreen}
     `}
 `;
 
@@ -53,20 +60,30 @@ const PriceTileCompact = ({ coinKey, price }) => (
         {numberFormat(price.CHANGEPCT24HOUR)}
       </ChangePct>
     </JustifyRight>
-    <div>${numberFormat(price.PRICE)}</div>
+    <JustifyRight>
+      <div>${numberFormat(price.PRICE)}</div>
+    </JustifyRight>
   </>
 );
 
 const PriceTile = ({ coinKey, price, index }) => {
   const compact = index > 4;
   return (
-    <PriceTileStyled compact={compact}>
-      {compact ? (
-        <PriceTileCompact coinKey={coinKey} price={price} />
-      ) : (
-        <PriceTileBig coinKey={coinKey} price={price} />
+    <AppContext.Consumer>
+      {({ currentFavorite, setCurrentFavorite }) => (
+        <PriceTileStyled
+          compact={compact}
+          currentFavorite={currentFavorite === coinKey}
+          onClick={() => setCurrentFavorite(coinKey)}
+        >
+          {compact ? (
+            <PriceTileCompact coinKey={coinKey} price={price} />
+          ) : (
+            <PriceTileBig coinKey={coinKey} price={price} />
+          )}
+        </PriceTileStyled>
       )}
-    </PriceTileStyled>
+    </AppContext.Consumer>
   );
 };
 export default PriceTile;

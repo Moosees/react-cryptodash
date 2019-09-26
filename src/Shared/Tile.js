@@ -7,7 +7,7 @@ import {
 } from './Styles';
 
 export const Tile = styled.div`
-  height: 70px;
+  min-height: 70px;
   padding: 10px;
   position: relative;
   ${boxShadowLight}

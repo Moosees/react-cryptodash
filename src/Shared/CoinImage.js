@@ -8,11 +8,20 @@ export const CoinImageStyled = styled.img`
   right: 5px;
 `;
 
-const CoinImage = ({ coin: { CoinSymbol, ImageUrl } }) => (
-  <CoinImageStyled
-    alt={CoinSymbol}
-    src={`http://cryptocompare.com/${ImageUrl}`}
-  />
-);
+export const CoinImageSpotlight = styled.img`
+  display: block;
+  height: 120px;
+  margin: 0 auto 20px;
+`;
+
+const CoinImage = ({ coin: { CoinSymbol, ImageUrl }, spotlight }) => {
+  const CoinImageClass = spotlight ? CoinImageSpotlight : CoinImageStyled;
+  return (
+    <CoinImageClass
+      alt={CoinSymbol}
+      src={`http://cryptocompare.com/${ImageUrl}`}
+    />
+  );
+};
 
 export default CoinImage;

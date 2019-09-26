@@ -18,12 +18,12 @@ const CoinTile = ({ coinKey, topSection }) => (
         <TileClass
           onClick={() => (topSection ? removeCoin(coinKey) : addCoin(coinKey))}
         >
+          <CoinImage coin={coin} />
           <CoinHeader
             name={coin.CoinName}
             symbol={coin.Symbol}
             topSection={topSection}
           />
-          <CoinImage coin={coin} />
         </TileClass>
       );
     }}

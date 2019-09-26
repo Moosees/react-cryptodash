@@ -7,6 +7,7 @@ import { AppContext } from '../App/AppProvider';
 
 export const PriceTileStyled = styled(SelectableTile)`
   height: auto;
+  min-height: auto;
   ${({ compact }) =>
     compact &&
     css`

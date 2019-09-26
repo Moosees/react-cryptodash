@@ -49,7 +49,9 @@ const PriceTileBig = ({ coinKey, price }) => (
         </ChangePct>
       </JustifyRight>
     </CoinHeaderStyled>
-    <TickerPrice>${numberFormat(price.PRICE, 9)}</TickerPrice>
+    <TickerPrice>
+      {price.PRICE ? `$${numberFormat(price.PRICE, 9)}` : 'N/A'}
+    </TickerPrice>
   </>
 );
 

@@ -97,7 +97,7 @@ export class AppProvider extends Component {
 
   fetchPrices = async () => {
     if (!this.state.firstVisit) {
-      let prices = await this.getPrices();
+      const prices = await this.getPrices();
       this.setState({ prices });
     } else return;
   };
@@ -124,18 +124,18 @@ export class AppProvider extends Component {
     const { favorites } = this.state;
     let data = [];
     for (let i = 0; i < favorites.length; i++) {
+      let priceData = {};
       try {
-        let priceData = await cc.priceFull(favorites[i], 'USD');
-        if (!priceData) {
-          throw new Error('Could not fetch USD price data');
-        } else {
-          data.push(priceData);
-        }
+        priceData = await cc.priceFull(favorites[i], 'USD');
       } catch (e) {
         console.error(`Error fetching price data for ${favorites[i]}:`, e);
+      }
+      if (!Object.keys(priceData).length) {
         data.push({
           [favorites[i]]: { USD: { PRICE: 0, CHANGEPCT24HOUR: 0 } }
         });
+      } else {
+        data.push(priceData);
       }
     }
     return data;

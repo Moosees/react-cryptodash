@@ -39,7 +39,11 @@ const AppBar = () => (
   <Bar>
     <Logo>CryptoDash</Logo>
     <div />
-    <ControlButton name="dashboard" />
+    <AppContext.Consumer>
+      {({ currentFavorite }) =>
+        currentFavorite ? <ControlButton name="dashboard" /> : <div />
+      }
+    </AppContext.Consumer>
     <ControlButton name="settings" />
   </Bar>
 );

@@ -1,7 +1,12 @@
-export default () => ({
+export default historical => ({
   title: {
     text: ''
   },
+  
+  xAxis: {
+    type: 'datetime'
+  },
+
   yAxis: {
     title: {
       text: ''
@@ -23,12 +28,7 @@ export default () => ({
     }
   },
 
-  series: [
-    {
-      name: 'Price $',
-      data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
-    }
-  ],
+  series: historical,
 
   responsive: {
     rules: [

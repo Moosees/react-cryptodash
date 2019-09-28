@@ -1,10 +1,13 @@
 import React, { Component, createContext } from 'react';
+import moment from 'moment';
 
 const cc = require('cryptocompare');
+cc.setApiKey(process.env.REACT_APP_CC_KEY);
 
 export const AppContext = createContext();
 
 const MAX_FAVORITES = 15;
+const TIME_UNITS = 10;
 
 export class AppProvider extends Component {
   constructor(props) {
@@ -23,11 +26,25 @@ export class AppProvider extends Component {
       const currentFavorite = this.state.favorites[0];
       this.saveToLocalStorage(this.state.favorites, currentFavorite);
       this.setState(
-        { page: 'dashboard', firstVisit: false, currentFavorite },
+        {
+          page: 'dashboard',
+          firstVisit: false,
+          historical: null,
+          prices: null,
+          currentFavorite
+        },
         () => {
           this.fetchPrices();
+          this.fetchHistorical();
         }
       );
+    };
+
+    const setCurrentFavorite = coinKey => {
+      this.setState({ currentFavorite: coinKey, historical: null }, () => {
+        this.saveToLocalStorage(this.state.favorites, coinKey);
+        this.fetchHistorical();
+      });
     };
 
     const addCoin = coinKey => {
@@ -50,16 +67,14 @@ export class AppProvider extends Component {
       coinList: null,
       favorites: [],
       filteredCoins: {},
+      historical: null,
+      prices: null,
       ...savedSettings(),
       setPage: page => this.setState({ page }),
       setFilteredCoins: filteredCoins => this.setState({ filteredCoins }),
-      setCurrentFavorite: coinKey =>
-        this.setState(
-          { currentFavorite: coinKey },
-          this.saveToLocalStorage(this.state.favorites, coinKey)
-        ),
       isInFavorites: coinKey => this.state.favorites.includes(coinKey),
       confirmFavorites,
+      setCurrentFavorite,
       addCoin,
       removeCoin
     };
@@ -68,6 +83,7 @@ export class AppProvider extends Component {
   componentDidMount() {
     this.fetchCoins();
     this.fetchPrices();
+    this.fetchHistorical();
   }
 
   fetchCoins = async () => {
@@ -83,6 +99,24 @@ export class AppProvider extends Component {
     if (!this.state.firstVisit) {
       let prices = await this.getPrices();
       this.setState({ prices });
+    } else return;
+  };
+
+  fetchHistorical = async () => {
+    if (!this.state.firstVisit) {
+      const data = await this.getHistorical();
+      const historical = [
+        {
+          name: this.state.currentFavorite,
+          data: data.map((price, i) => [
+            moment()
+              .subtract({ months: TIME_UNITS - i })
+              .valueOf(),
+            price.USD
+          ])
+        }
+      ];
+      this.setState({ historical });
     } else return;
   };
 
@@ -105,6 +139,22 @@ export class AppProvider extends Component {
       }
     }
     return data;
+  };
+
+  getHistorical = async () => {
+    let promises = [];
+    for (let units = TIME_UNITS; units > 0; units--) {
+      promises.push(
+        cc.priceHistorical(
+          this.state.currentFavorite,
+          ['USD'],
+          moment()
+            .subtract({ months: units })
+            .toDate()
+        )
+      );
+    }
+    return Promise.all(promises);
   };
 
   saveToLocalStorage = (favorites, currentFavorite) => {

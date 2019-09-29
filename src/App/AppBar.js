@@ -3,9 +3,9 @@ import styled, { css } from 'styled-components';
 import { AppContext } from './AppProvider';
 
 const Bar = styled.div`
+  box-sizing: border-box;
   display: grid;
   grid-template-columns: 180px auto 100px 100px;
-  margin-bottom: 40px;
 `;
 
 const Logo = styled.div`
@@ -18,6 +18,7 @@ const ControlButtonElem = styled.div`
     active &&
     css`
       color: #ccc;
+      cursor: default;
       text-shadow: 0 0 25px #03ff03;
     `}
 `;

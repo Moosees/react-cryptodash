@@ -9,7 +9,7 @@ const Content = ({ children }) => (
       } else if (!prices && !firstVisit) {
         return <div>Loading Prices...</div>;
       } else {
-        return <div>{children}</div>;
+        return <>{children}</>;
       }
     }}
   </AppContext.Consumer>

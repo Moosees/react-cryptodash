@@ -7,7 +7,9 @@ const Page = ({ name, children }) => (
       if (page !== name) {
         return null;
       } else {
-        return <div>{children}</div>;
+        return (
+          <div style={{ padding: "10px", boxSizing: 'border-box' ,overflowY: 'scroll' }}>{children}</div>
+        );
       }
     }}
   </AppContext.Consumer>

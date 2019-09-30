@@ -22,6 +22,12 @@ export class AppProvider extends Component {
       }
     };
 
+    const changeChartInterval = value =>
+      this.setState(
+        { timeInterval: value, historical: null },
+        this.fetchHistorical
+      );
+
     const confirmFavorites = () => {
       const currentFavorite = this.state.favorites[0];
       this.saveToLocalStorage(this.state.favorites, currentFavorite);
@@ -69,10 +75,12 @@ export class AppProvider extends Component {
       filteredCoins: {},
       historical: null,
       prices: null,
+      timeInterval: 'months',
       ...savedSettings(),
       setPage: page => this.setState({ page }),
       setFilteredCoins: filteredCoins => this.setState({ filteredCoins }),
       isInFavorites: coinKey => this.state.favorites.includes(coinKey),
+      changeChartInterval,
       confirmFavorites,
       setCurrentFavorite,
       addCoin,
@@ -110,7 +118,7 @@ export class AppProvider extends Component {
           name: this.state.currentFavorite,
           data: data.map((price, i) => [
             moment()
-              .subtract({ months: TIME_UNITS - i })
+              .subtract({ [this.state.timeInterval]: TIME_UNITS - i })
               .valueOf(),
             price.USD
           ])
@@ -149,7 +157,7 @@ export class AppProvider extends Component {
           this.state.currentFavorite,
           ['USD'],
           moment()
-            .subtract({ months: units })
+            .subtract({ [this.state.timeInterval]: units })
             .toDate()
         )
       );
